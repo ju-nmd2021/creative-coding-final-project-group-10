@@ -3,8 +3,9 @@ const synth = new Tone.MonoSynth().toDestination();
 const pingPongDelay = new Tone.PingPongDelay("4n", 0.5).toDestination();
 const seq = new Tone.Sequence((time, tone) => {
   synth.triggerAttackRelease(tone, 0.8, time);
-}, ["C2", ["E2", "D2", "H2"], "D1", ["G1", "C1"]]);
+}, ["C2", ["E2", "D2", "E2"], "D1", ["G1", "C1"]]);
 Tone.Transport.start();
+
 
 synth.connect(pingPongDelay);
 pingPongDelay.toDestination();
@@ -24,7 +25,7 @@ startBeatButton.addEventListener("click", generateBeat);
 
 function generateBeat() {
   document.getElementById("demo").innerHTML = "Hello World";
-  
+    
     Tone.start();
 
   seq.start(0);
