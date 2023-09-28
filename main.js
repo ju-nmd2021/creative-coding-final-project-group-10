@@ -71,4 +71,8 @@ function startCamera() {
   newButtonFinish.id = "finish-button";
   newButtonFinish.className = "camera-buttons";
   document.body.appendChild(newButtonFinish);
+
+  newButtonFinish.addEventListener("click", function () {
+    window.open("result.html");
+  });
 }
