@@ -23,36 +23,45 @@ h1 {
   border: none;
   border-radius: 15px;
   background-color: cadetblue;
-  font-size: 1.5em;
+  font-size: 1.2em;
   padding: 1%;
   text-align: center;
 }
 
+.goToStart {
+  margin-top: 1.5em;
+  margin-left: 2.5em;
+  background-color: antiquewhite;
+  color: cadetblue;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  padding: 7px;
+}
+
 .buttons {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-content: center;
   justify-content: space-evenly;
-  margin-top: 10em;
+  margin-top: 4em;
 }
 
 #startBeatButton {
-  margin-top: 4em;
   border: none;
   border-radius: 15px;
   background-color: cadetblue;
-  font-size: 1.5em;
+  font-size: 1.2em;
   padding: 1%;
   text-align: center;
 }
 
-.continue {
-  margin-top: 4em;
+#continueButton {
   border: none;
   border-radius: 15px;
   background-color: cadetblue;
-  font-size: 1.5em;
+  font-size: 1.2em;
   padding: 1%;
   text-align: center;
 }
