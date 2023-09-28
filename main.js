@@ -50,5 +50,25 @@ continueButton.addEventListener("click", startCamera);
 
 function startCamera() {
   //   document.getElementById("test").innerHTML = "Camera";
-  image(video, 350, 70, 640, 480);
+
+  //Create new buttons together with opening the camera
+  image(video, 350, 50, 640, 480);
+
+  const newButtonRecord = document.createElement("button");
+  newButtonRecord.textContent = "Start Recording";
+  newButtonRecord.id = "record-button";
+  newButtonRecord.className = "camera-buttons";
+  document.body.appendChild(newButtonRecord);
+
+  const newButtonStop = document.createElement("button");
+  newButtonStop.textContent = "Stop Recording";
+  newButtonStop.id = "stop-button";
+  newButtonStop.className = "camera-buttons";
+  document.body.appendChild(newButtonStop);
+
+  const newButtonFinish = document.createElement("button");
+  newButtonFinish.textContent = "Finish";
+  newButtonFinish.id = "finish-button";
+  newButtonFinish.className = "camera-buttons";
+  document.body.appendChild(newButtonFinish);
 }

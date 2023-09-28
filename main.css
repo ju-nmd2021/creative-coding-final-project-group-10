@@ -67,3 +67,38 @@ h1 {
   padding: 1%;
   text-align: center;
 }
+
+#record-button {
+  border: none;
+  border-radius: 15px;
+  background-color: cadetblue;
+  font-size: 1.2em;
+  padding: 1%;
+  text-align: center;
+  margin-left: 20.8em;
+}
+
+#stop-button {
+  border: none;
+  border-radius: 15px;
+  background-color: cadetblue;
+  font-size: 1.2em;
+  padding: 1%;
+  text-align: center;
+}
+
+#finish-button {
+  border: none;
+  border-radius: 15px;
+  background-color: cadetblue;
+  font-size: 1.2em;
+  padding: 1%;
+  text-align: center;
+}
+
+.camera-buttons {
+  justify-content: center;
+  align-content: center;
+  justify-content: space-evenly;
+  margin-left: 4em;
+}
