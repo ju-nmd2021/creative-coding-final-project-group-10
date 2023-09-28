@@ -1,0 +1,32 @@
+* {
+  background-color: rgb(61, 61, 61);
+  color: antiquewhite;
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.title {
+  margin-top: 5em;
+}
+
+.explanation-text {
+  text-align: center;
+  margin-top: 4em;
+}
+
+.start-button-home {
+  margin-top: 4em;
+  margin-left: 43%;
+  border: none;
+  border-top-left-radius: 15%;
+  border-top-right-radius: 15%;
+  border-bottom-left-radius: 15%;
+  border-bottom-right-radius: 15%;
+  background-color: cadetblue;
+  font-size: 1.5em;
+  padding: 1%;
+  text-align: center;
+}
