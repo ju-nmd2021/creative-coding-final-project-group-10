@@ -30,6 +30,16 @@ function generateBeat() {
   Tone.start();
 
   seq.start(0);
+
+  let timeLeft;
+  let timeCounting;
+  if(timeLeft > 0){
+    timeCounting = setTimeout(timeCounter, 1000)
+  }
+  if(timeCounting === 30000){
+    clearTimeout(timeCounting);
+    seq.stop(0);
+  }
 }
 
 continueButton.addEventListener("click", startCamera);
