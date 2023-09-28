@@ -24,24 +24,14 @@ const continueButton = document.getElementById("continueButton");
 
 startBeatButton.addEventListener("click", generateBeat);
 
-// let timeLeft = 10;
-// let timeCounting;
-// function timeCounter() {
-//   if (timeLeft > 0) {
-//     timeCounting = setTimeout(timeCounter, 1000);
-//   }
-//   if (timeCounting === 10000) {
-//     clearTimeout(timeCounting);
-//     seq.stop(0);
-//   }
-// }
-
 function generateBeat() {
   // document.getElementById("demo").innerHTML = "Hello World";
 
   Tone.start();
 
   seq.start(0);
+
+  // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
   var downloadTimer = setInterval(function () {
     if (timeleft <= 0) {
