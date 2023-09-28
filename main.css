@@ -15,17 +15,19 @@ h1 {
 .explanation-text {
   text-align: center;
   margin-top: 4em;
+  margin-left: 17em;
+  margin-right: 17em;
 }
 
 .start-button-home {
   margin-top: 4em;
-  margin-left: 43%;
+  margin-left: 33.5em;
+  margin-right: 33.5em;
   border: none;
   border-radius: 15px;
   background-color: cadetblue;
-  font-size: 1.2em;
+  font-size: 1.1em;
   padding: 1%;
-  text-align: center;
 }
 
 .goToStart {
