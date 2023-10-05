@@ -66,12 +66,17 @@ startBeatButton.addEventListener("click", generateBeat);
 
 function generateBeat() {
   // document.getElementById("demo").innerHTML = "Hello World";
-
+  
   Tone.start();
 
   seq.start(0);
-  seq.probability = 0.3;
+  seq.probability = music.probability;
   seq.humanize = "32n";
+
+  const music = {probability: 0.3, humanize: "32n"};
+  localStorage.music = JSON.strigify(music);
+
+  
 
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
@@ -87,7 +92,6 @@ function generateBeat() {
     timeleft -= 1;
   }, 1000);
 
-  localStorage.setItem("");
 }
 
 continueButton.addEventListener("click", startCamera);
@@ -121,6 +125,7 @@ function startCamera() {
   newButtonRecord.addEventListener("click", function(){
     Tone.start();
     seq.start(0);
+    const music = JSON.parse(localStorage.music);
   })
 
   newButtonFinish.addEventListener("click", function () {
