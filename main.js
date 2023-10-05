@@ -6,19 +6,18 @@ let detectionIsActivated = false;
 const { getBarsBeats, addTimes, getTransportTimes, mergeMusicDataPart } =
   toneRhythm.toneRhythm(Tone.Time);
 
-const synth = new Tone.MonoSynth().toMaster();
-const pingPongDelay = new Tone.PingPongDelay("4n", 0.5).toDestination();
+const synth = new Tone.DuoSynth().toMaster();
+const delay = new Tone.Delay("4n", 0.5).toDestination();
 const seq = new Tone.Sequence(
   (time, tone) => {
-    synth.triggerAttackRelease(tone, 0.8, time * 2);
-    synth.triggerAttackRelease("E4", "2n", "0:3");
+    synth.triggerAttackRelease(tone, 0.8, time);
   },
-  ["C2", ["E2", "D2", "E2"], "D1", ["G1", "C1"], "4n", "8n"]
+  ["C3", ["E2", "D3", "E3"], "D2", ["G2", "C2"],'4n', '8n']
 );
 Tone.Transport.start();
 
-synth.connect(pingPongDelay);
-pingPongDelay.toDestination();
+synth.connect(delay);
+delay.toDestination();
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -71,6 +70,8 @@ function generateBeat() {
   Tone.start();
 
   seq.start(0);
+  seq.probability=0.3;
+  seq.humanize = "32n";
 
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
