@@ -89,7 +89,7 @@ function generateBeat() {
   }, 1000);
 
   const music = {probability: 0.3, humanize: "32n"};
-  localStorage.music = JSON.strigify(music);
+  localStorage.music = JSON.stringify(music);
 
 }
 
