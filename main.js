@@ -3,21 +3,17 @@ let handpose;
 let predictions = [];
 let detectionIsActivated = false;
 
-const {
-  getBarsBeats,
-  addTimes,
-  getTransportTimes,
-  mergeMusicDataPart
-} = toneRhythm.toneRhythm(Tone.Time);
+const { getBarsBeats, addTimes, getTransportTimes, mergeMusicDataPart } =
+  toneRhythm.toneRhythm(Tone.Time);
 
 const synth = new Tone.MonoSynth().toMaster();
 const pingPongDelay = new Tone.PingPongDelay("4n", 0.5).toDestination();
 const seq = new Tone.Sequence(
   (time, tone) => {
-    synth.triggerAttackRelease(tone, 0.8, time*2);
-    synth.triggerAttackRelease('E4', '2n', '0:3');
+    synth.triggerAttackRelease(tone, 0.8, time * 2);
+    synth.triggerAttackRelease("E4", "2n", "0:3");
   },
-  ["C2", ["E2", "D2", "E2"], "D1", ["G1", "C1"],'4n', '8n']
+  ["C2", ["E2", "D2", "E2"], "D1", ["G1", "C1"], "4n", "8n"]
 );
 Tone.Transport.start();
 
@@ -37,20 +33,19 @@ function setup() {
 }
 
 function draw() {
-  image(video, 0, 0, 640, 480);
-
   if (detectionIsActivated) {
+    image(video, 0, 0, 640, 480);
     for (let hand of predictions) {
-      const x1 = hand.boundingBox.topLeft[0];
-      const y1 = hand.boundingBox.topLeft[1];
-      const x2 = hand.boundingBox.bottomRight[0];
-      const y2 = hand.boundingBox.bottomRight[1];
-      push();
-      noFill();
-      stroke(0, 255, 0);
-      rectMode(CORNERS);
-      rect(x1, y1, x2, y2);
-      pop();
+      // const x1 = hand.boundingBox.topLeft[0];
+      // const y1 = hand.boundingBox.topLeft[1];
+      // const x2 = hand.boundingBox.bottomRight[0];
+      // const y2 = hand.boundingBox.bottomRight[1];
+      // push();
+      // noFill();
+      // stroke(0, 255, 0);
+      // rectMode(CORNERS);
+      // rect(x1, y1, x2, y2);
+      // pop();
 
       const landmarks = hand.landmarks;
       for (let landmark of landmarks) {
@@ -63,7 +58,6 @@ function draw() {
     }
   }
 }
-
 
 const startBeatButton = document.getElementById("startBeatButton");
 
