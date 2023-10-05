@@ -12,7 +12,7 @@ const seq = new Tone.Sequence(
   (time, tone) => {
     synth.triggerAttackRelease(tone, 0.8, time);
   },
-  ["C3", ["E2", "D3", "E3"], "D2", ["G2", "C2"],'4n', '8n']
+  ["C3", ["E2", "D3", "E3"], "D2", ["G2", "C2"], "4n", "8n"]
 );
 Tone.Transport.start();
 
@@ -70,7 +70,7 @@ function generateBeat() {
   Tone.start();
 
   seq.start(0);
-  seq.probability=0.3;
+  seq.probability = 0.3;
   seq.humanize = "32n";
 
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
@@ -86,6 +86,8 @@ function generateBeat() {
     }
     timeleft -= 1;
   }, 1000);
+
+  localStorage.setItem("");
 }
 
 continueButton.addEventListener("click", startCamera);
@@ -100,26 +102,32 @@ function startCamera() {
   //Buttons
   const newButtonRecord = document.createElement("button");
   newButtonRecord.textContent = "Start Recording";
-  newButtonRecord.id = "record-button";
-  newButtonRecord.className = "camera-buttons";
+  newButtonRecord.id = "recordButton";
+  newButtonRecord.className = "cameraButtons";
   document.body.appendChild(newButtonRecord);
 
   const newButtonStop = document.createElement("button");
   newButtonStop.textContent = "Stop Recording";
-  newButtonStop.id = "stop-button";
-  newButtonStop.className = "camera-buttons";
+  newButtonStop.id = "stopButton";
+  newButtonStop.className = "cameraButtons";
   document.body.appendChild(newButtonStop);
 
   const newButtonFinish = document.createElement("button");
   newButtonFinish.textContent = "Finish";
-  newButtonFinish.id = "finish-button";
-  newButtonFinish.className = "camera-buttons";
+  newButtonFinish.id = "finishButton";
+  newButtonFinish.className = "cameraButtons";
   document.body.appendChild(newButtonFinish);
+
+  newButtonRecord.addEventListener("click", function(){
+    Tone.start();
+    seq.start(0);
+  })
 
   newButtonFinish.addEventListener("click", function () {
     window.open("result.html");
   });
 }
+
 
 function modelLoaded() {
   console.log("Model Loaded!");

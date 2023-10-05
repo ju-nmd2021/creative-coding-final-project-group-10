@@ -68,7 +68,7 @@ h1 {
   text-align: center;
 }
 
-#record-button {
+#recordButton {
   border: none;
   border-radius: 15px;
   background-color: cadetblue;
@@ -78,7 +78,7 @@ h1 {
   margin-left: 20.8em;
 }
 
-#stop-button {
+#stopButton {
   border: none;
   border-radius: 15px;
   background-color: cadetblue;
@@ -87,7 +87,7 @@ h1 {
   text-align: center;
 }
 
-#finish-button {
+#finishButton {
   border: none;
   border-radius: 15px;
   background-color: cadetblue;
@@ -96,7 +96,7 @@ h1 {
   text-align: center;
 }
 
-.camera-buttons {
+.cameraButtons {
   justify-content: center;
   align-content: center;
   justify-content: space-evenly;
