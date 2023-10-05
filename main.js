@@ -97,7 +97,7 @@ function generateBeat() {
 continueButton.addEventListener("click", startCamera);
 
 function startCamera() {
-  //   document.getElementById("test").innerHTML = "Camera";
+  //document.getElementById("test").innerHTML = "Camera";
 
   //Starting the hand detection
   detectionIsActivated = true;
@@ -122,12 +122,15 @@ function startCamera() {
   newButtonFinish.className = "cameraButtons";
   document.body.appendChild(newButtonFinish);
 
+  //Get sequence from local storage
   newButtonRecord.addEventListener("click", function(){
     Tone.start();
     seq.start(0);
     const music = JSON.parse(localStorage.music);
+    detectionIsActivated = true;
   })
 
+  //Go to results page
   newButtonFinish.addEventListener("click", function () {
     window.open("result.html");
   });
