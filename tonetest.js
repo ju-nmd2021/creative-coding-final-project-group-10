@@ -11,6 +11,7 @@ const {
 } = toneRhythm.toneRhythm(Tone.Time);
 
 const synth = new Tone.MonoSynth().toMaster();
+//var synth = new Tone.FMSynth().toMaster();
 const pingPongDelay = new Tone.PingPongDelay("4n", 0.5).toDestination();
 const seq = new Tone.Sequence(
   (time, tone) => {
