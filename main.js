@@ -1,6 +1,7 @@
 let video;
 let handpose;
 let predictions = [];
+let detectionIsActivated = false;
 
 const synth = new Tone.MonoSynth().toDestination();
 const pingPongDelay = new Tone.PingPongDelay("4n", 0.5).toDestination();
@@ -26,6 +27,35 @@ function setup() {
     predictions = results;
   });
 }
+
+function draw() {
+  image(video, 0, 0, 640, 480);
+
+  if (detectionIsActivated) {
+    for (let hand of predictions) {
+      const x1 = hand.boundingBox.topLeft[0];
+      const y1 = hand.boundingBox.topLeft[1];
+      const x2 = hand.boundingBox.bottomRight[0];
+      const y2 = hand.boundingBox.bottomRight[1];
+      push();
+      noFill();
+      stroke(0, 255, 0);
+      rectMode(CORNERS);
+      rect(x1, y1, x2, y2);
+      pop();
+
+      const landmarks = hand.landmarks;
+      for (let landmark of landmarks) {
+        push();
+        noStroke();
+        fill(0, 255, 0);
+        ellipse(landmark[0], landmark[1], 10);
+        pop();
+      }
+    }
+  }
+}
+
 
 const startBeatButton = document.getElementById("startBeatButton");
 
@@ -60,31 +90,10 @@ continueButton.addEventListener("click", startCamera);
 function startCamera() {
   //   document.getElementById("test").innerHTML = "Camera";
 
+  //Starting the hand detection
+  detectionIsActivated = true;
+
   //Create new buttons together with opening the camera
-  image(video, 350, 50, 640, 480);
-
-  for (let hand of predictions) {
-    const x1 = hand.boundingBox.topLeft[0];
-    const y1 = hand.boundingBox.topLeft[1];
-    const x2 = hand.boundingBox.bottomRight[0];
-    const y2 = hand.boundingBox.bottomRight[1];
-    push();
-    noFill();
-    stroke(0, 255, 0);
-    rectMode(CORNERS);
-    rect(x1, y1, x2, y2);
-    pop();
-
-    const landmarks = hand.landmarks;
-    for (let landmark of landmarks) {
-      push();
-      noStroke();
-      fill(0, 255, 0);
-      ellipse(landmark[0], landmark[1], 10);
-      pop();
-    }
-  }
-
   //Buttons
   const newButtonRecord = document.createElement("button");
   newButtonRecord.textContent = "Start Recording";
