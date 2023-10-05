@@ -12,7 +12,7 @@ const seq = new Tone.Sequence(
   (time, tone) => {
     synth.triggerAttackRelease(tone, 0.8, time);
   },
-  ["C3", ["E2", "D3", "E3"], "D2", ["G2", "C2"], "4n", "8n"]
+  ["C3", ["G2", "D3", "E3"], "D2", ["G2", "C2"]]
 );
 Tone.Transport.start();
 
@@ -70,13 +70,9 @@ function generateBeat() {
   Tone.start();
 
   seq.start(0);
-  seq.probability = music.probability;
+  seq.probability = 0.3;
   seq.humanize = "32n";
 
-  const music = {probability: 0.3, humanize: "32n"};
-  localStorage.music = JSON.strigify(music);
-
-  
 
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
@@ -91,6 +87,9 @@ function generateBeat() {
     }
     timeleft -= 1;
   }, 1000);
+
+  const music = {probability: 0.3, humanize: "32n"};
+  localStorage.music = JSON.strigify(music);
 
 }
 
