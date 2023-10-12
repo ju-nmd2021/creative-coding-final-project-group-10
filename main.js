@@ -153,7 +153,8 @@ function draw() {
         sense = false;
 
         Tone.Transport.start();
-        newSequence.start(0);
+        newSequenceClosed.stop();
+        newSequence.start();
       } else {
         //if (Tone.context.state !== "running") {
 
@@ -161,7 +162,7 @@ function draw() {
         if (sense === false) {
           sense = true;
           Tone.Transport.start();
-          newSequenceClosed.start(0);
+          newSequenceClosed.start();
           // const synth = new Tone.DuoSynth().toMaster();
           // synth.triggerAttackRelease("C4", "4n");
         }
@@ -217,6 +218,7 @@ function generateBeat() {
 continueButton.addEventListener("click", startCamera);
 
 function startCamera() {
+  Tone.start();
   //Starting the hand detection
   detectionIsActivated = true;
 
@@ -269,7 +271,7 @@ function startCamera() {
       anchor.download = "recording.webm";
       anchor.href = url;
       anchor.click();
-    }, 4000);
+    }, 10000);
 
     // const music = JSON.parse(localStorage.music);
     // music.probability = seq.probability;
