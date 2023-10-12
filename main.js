@@ -10,6 +10,7 @@ let detectionIsActivated = false;
    0-16 Ring finger
    0-20 Pinky
 */
+
 // Points for fingers
 const fingerJoints = {
   thumb: [0, 1, 2, 3, 4],
@@ -70,6 +71,7 @@ function draw() {
       let x1 = predictions[0].boundingBox.topLeft[0];
       let x2 = predictions[0].boundingBox.bottomRight[0];
       let w = x2 - x1;
+
       //Calculate the distance between two points of the finger (thumb tip and middle finger tip)
       let thumbX = landmarks[4][0];
       let thumbY = landmarks[4][1];
@@ -98,14 +100,25 @@ function draw() {
       let minDistance = 0.2;
       let maxDistance = 1.5;
 
-    //Map distance to play in tones
+    //Map distance to play different tones
     mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
     if (mappedDistance > 0.8) {
+
+      const pentatonicScaleD = ['D2','E2','Gb2','A2','H2'];
+      const scale = new Tone.Pattern((time,note)=>{
+        synth.triggerAttackRelease(note, "4n", time);
+      }, pentatonicScaleD, "upDown");
+
       const synth = new Tone.Synth().toMaster();
+        scale.start(0);
+        scale.pattern = "upDown";
+      // synth.triggerAttackRelease("pentatonicScaleD", "2n");
+    }else{
+      const synth = new Tone.DuoSynth().toMaster();
       if (Tone.context.state !== "running") {
         Tone.start();
       }
-      synth.triggerAttackRelease("G2", "2n");
+      synth.triggerAttackRelease("C3", "4n");
     }
     }
   }
