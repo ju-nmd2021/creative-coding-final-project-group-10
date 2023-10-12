@@ -40,6 +40,14 @@ function setup() {
   });
 }
 
+let sense = false;
+const synth2 = new Tone.Synth().toDestination();
+      const pentatonicScale = ['D2','E2','Gb2','A2','B2'];
+      const newSequence = new Tone.Sequence((time,note)=>{
+        const randomNote = pentatonicScale[Math.floor(Math.random()*pentatonicScale.length)];
+        synth2.triggerAttackRelease(randomNote, '8n', time);
+      }, Array.from({length: 16}), '4n');
+
 function draw() {
   if (detectionIsActivated) {
     image(video, 0, 0, 640, 480);
@@ -99,22 +107,21 @@ function draw() {
     //Map distance to play different tones
     mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
     if (mappedDistance > 0.8) {
-
-      const synth = new Tone.Synth().toDestination();
-      const pentatonicScale = ['D2','E2','Gb2','A2','B2'];
-      const newSequence = new Tone.Sequence((time,note)=>{
-        const randomNote = pentatonicScale[Math.floor(Math.random()*pentatonicScale.length)];
-        synth.triggerAttackRelease(randomNote, '8n', time);
-      }, Array.from({length: 16}), '4n');
+      sense = false;
+      
       Tone.Transport.start();
       newSequence.start(0);
    
     }else{
-      const synth = new Tone.DuoSynth().toMaster();
       if (Tone.context.state !== "running") {
         Tone.start();
       }
+      newSequence.stop();
+      if (sense=== false) {
+        sense=true;    
+      const synth = new Tone.DuoSynth().toMaster();
       synth.triggerAttackRelease("C4", "4n");
+    }
     }
     }
   }
