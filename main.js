@@ -66,19 +66,18 @@ startBeatButton.addEventListener("click", generateBeat);
 
 function generateBeat() {
   // document.getElementById("demo").innerHTML = "Hello World";
-  
+
   Tone.start();
 
   seq.start(0);
   seq.probability = 0.3;
   seq.humanize = "32n";
 
-
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
-  var downloadTimer = setInterval(function () {
+  var playTimer = setInterval(function () {
     if (timeleft <= 0) {
-      clearInterval(downloadTimer);
+      clearInterval(playTimer);
       document.getElementById("countdown").innerHTML = "Finished";
       seq.stop(0);
     } else {
@@ -88,9 +87,8 @@ function generateBeat() {
     timeleft -= 1;
   }, 1000);
 
-  const music = {probability: 0.3, humanize: "32n"};
+  const music = { probability: 0.3, humanize: "32n" };
   localStorage.music = JSON.stringify(music);
-
 }
 
 continueButton.addEventListener("click", startCamera);
@@ -122,19 +120,30 @@ function startCamera() {
   document.body.appendChild(newButtonFinish);
 
   //Get sequence from local storage
-  newButtonRecord.addEventListener("click", function(){
+  newButtonRecord.addEventListener("click", function () {
     Tone.start();
     seq.start(0);
+    var timeleft = 10;
+    var playTimer = setInterval(function () {
+      if (timeleft <= 0) {
+        clearInterval(playTimer);
+        document.getElementById("countdown").innerHTML = "Finished";
+        seq.stop(0);
+      } else {
+        document.getElementById("countdown").innerHTML =
+          timeleft + " seconds remaining";
+      }
+      timeleft -= 1;
+    }, 1000);
     const music = JSON.parse(localStorage.music);
     detectionIsActivated = true;
-  })
+  });
 
   //Go to results page
   newButtonFinish.addEventListener("click", function () {
     window.open("result.html");
   });
 }
-
 
 function modelLoaded() {
   console.log("Model Loaded!");
