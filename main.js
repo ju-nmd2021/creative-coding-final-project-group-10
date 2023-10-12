@@ -3,26 +3,40 @@ let handpose;
 let predictions = [];
 let detectionIsActivated = false;
 
-// // Points for fingers
-// const fingerJoints = {
-//   thumb: [0, 1, 2, 3, 4],
-//   indexFinger: [0, 5, 6, 7, 8],
-//   middleFinger: [0, 9, 10, 11, 12],
-//   ringFinger: [0, 13, 14, 15, 16],
-//   pinky: [0, 17, 18, 19, 20],
-// };
-
 const { getBarsBeats, addTimes, getTransportTimes, mergeMusicDataPart } =
   toneRhythm.toneRhythm(Tone.Time);
 
-const synth = new Tone.FMSynth().toMaster();
+// const synth = new Tone.FMSynth().toMaster();
+// const seq = new Tone.Sequence(
+//   (time, tone) => {
+//     synth.triggerAttackRelease(tone, 0.6, time);
+//   },
+//   ["C3", ["A2", "E3", "D3"], "D2", ["G2", "E2"]]
+// );
+// Tone.Transport.start();
+
+const recorder = new Tone.Recorder();
+const synth = new Tone.FMSynth().connect(recorder).toMaster();
+recorder.start();
+const scaleForSeq = ["C3", "A2", "E3", "D3", "D2", "G2", "E2"];
 const seq = new Tone.Sequence(
   (time, tone) => {
-    synth.triggerAttackRelease(tone, 0.6, time);
-  },
-  ["C3", ["A2", "E3", "D3"], "D2", ["G2", "E2"]]
+    const randomTone = scaleForSeq[Math.floor(Math.random()*scaleForSeq.length)];
+    synth.triggerAttackRelease(randomTone, '2n', time);
+  }, Array.from({length:16}), '2n'
 );
 Tone.Transport.start();
+
+// setTimeout(async () => {
+// 	// the recorded audio is returned as a blob
+// 	const recording = await recorder.stop();
+// 	// download the recording by creating an anchor element and blob url
+// 	const url = URL.createObjectURL(recording);
+// 	const anchor = document.createElement("a");
+// 	anchor.download = "recording.webm";
+// 	anchor.href = url;
+// 	anchor.click();
+// }, 4000);
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -127,16 +141,28 @@ function generateBeat() {
   Tone.start();
 
   seq.start(0);
-  seq.probability = 0.3;
-  seq.humanize = "8n";
-
+  // seq.probability = 0.3;
+  // seq.humanize = "8n";
+  
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
   var playTimer = setInterval(function () {
+    
     if (timeleft <= 0) {
       clearInterval(playTimer);
       document.getElementById("countdown").innerHTML = "Finished";
       seq.stop(0);
+      //Code for recording and downloading was taken from: https://tonejs.github.io/docs/14.7.77/Recorder
+      setTimeout(async () => {
+        // the recorded audio is returned as a blob
+        const recording = await recorder.stop();
+        // download the recording by creating an anchor element and blob url
+        const url = URL.createObjectURL(recording);
+        const anchor = document.createElement("a");
+        anchor.download = "recording.webm";
+        anchor.href = url;
+        anchor.click();
+      }, 4000);
     } else {
       document.getElementById("countdown").innerHTML =
         timeleft + " seconds remaining";
@@ -145,9 +171,8 @@ function generateBeat() {
   }, 1000);
  
 
-
-   const music = { probability: 0.3, humanize: "32n" };
-   localStorage.music = JSON.stringify(music);
+    const music = { probability: 0.3, humanize: "32n" };
+    localStorage.music = JSON.stringify(music);
 }
 
 
@@ -199,7 +224,8 @@ function startCamera() {
      const music = JSON.parse(localStorage.music);
      music.probability = seq.probability;
      music.humanize = seq.humanize;
-    detectionIsActivated = true;
+     detectionIsActivated = true;
+
 
   });
 
