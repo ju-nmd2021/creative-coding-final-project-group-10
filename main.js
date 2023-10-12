@@ -6,15 +6,6 @@ let detectionIsActivated = false;
 const { getBarsBeats, addTimes, getTransportTimes, mergeMusicDataPart } =
   toneRhythm.toneRhythm(Tone.Time);
 
-// const synth = new Tone.FMSynth().toMaster();
-// const seq = new Tone.Sequence(
-//   (time, tone) => {
-//     synth.triggerAttackRelease(tone, 0.6, time);
-//   },
-//   ["C3", ["A2", "E3", "D3"], "D2", ["G2", "E2"]]
-// );
-// Tone.Transport.start();
-
 //Synth with recorder
 const recorder = new Tone.Recorder();
 const synth = new Tone.FMSynth().connect(recorder).toMaster();
@@ -32,7 +23,7 @@ const seq = new Tone.Sequence(
 Tone.Transport.start();
 
 function setup() {
-  createCanvas(innerWidth, innerHeight);
+  createCanvas(640, 480);
   video = createCapture(VIDEO);
   video.size(640, 480);
   video.hide();
@@ -95,17 +86,6 @@ function draw() {
   if (detectionIsActivated) {
     image(video, 0, 0, 640, 480);
     for (let hand of predictions) {
-      // const x1 = hand.boundingBox.topLeft[0];
-      // const y1 = hand.boundingBox.topLeft[1];
-      // const x2 = hand.boundingBox.bottomRight[0];
-      // const y2 = hand.boundingBox.bottomRight[1];
-      // push();
-      // noFill();
-      // stroke(0, 255, 0);
-      // rectMode(CORNERS);
-      // rect(x1, y1, x2, y2);
-      // pop();
-
       const landmarks = hand.landmarks;
       for (let landmark of landmarks) {
         push();
@@ -163,8 +143,6 @@ function draw() {
           sense = true;
           Tone.Transport.start();
           newSequenceClosed.start();
-          // const synth = new Tone.DuoSynth().toMaster();
-          // synth.triggerAttackRelease("C4", "4n");
         }
       }
     }
@@ -181,8 +159,6 @@ function generateBeat() {
   Tone.start();
 
   seq.start(0);
-  // seq.probability = 0.3;
-  // seq.humanize = "8n";
 
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
@@ -210,9 +186,6 @@ function generateBeat() {
   }, 1000);
 
   storeInLocalStorage();
-
-  // const music = { probability: 0.3, humanize: "32n" };
-  // localStorage.music = JSON.stringify(music);
 }
 
 continueButton.addEventListener("click", startCamera);
@@ -230,12 +203,6 @@ function startCamera() {
   newButtonRecord.className = "cameraButtons";
   document.body.appendChild(newButtonRecord);
 
-  const newButtonStop = document.createElement("button");
-  newButtonStop.textContent = "Stop Recording";
-  newButtonStop.id = "stopButton";
-  newButtonStop.className = "cameraButtons";
-  document.body.appendChild(newButtonStop);
-
   const newButtonFinish = document.createElement("button");
   newButtonFinish.textContent = "Finish";
   newButtonFinish.id = "finishButton";
@@ -244,21 +211,6 @@ function startCamera() {
 
   //Get sequence from local storage
   newButtonRecord.addEventListener("click", function () {
-    /*Tone.start();
-    seq.start(0);
-    var timeleft = 10;
-    var playTimer = setInterval(function () {
-      if (timeleft <= 0) {
-        clearInterval(playTimer);
-        document.getElementById("countdown").innerHTML = "Finished";
-        seq.stop(0);
-      } else {
-        document.getElementById("countdown").innerHTML =
-          timeleft + " seconds remaining";
-      }
-      timeleft -= 1;
-    }, 1000); */
-
     generateBeat(); //not needed if storage is working
     retrieveFromLocalStorage();
 
@@ -272,10 +224,6 @@ function startCamera() {
       anchor.href = url;
       anchor.click();
     }, 10000);
-
-    // const music = JSON.parse(localStorage.music);
-    // music.probability = seq.probability;
-    // music.humanize = seq.humanize;
 
     detectionIsActivated = true;
     storeInLocalStorage();
