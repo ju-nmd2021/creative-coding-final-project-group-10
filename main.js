@@ -100,14 +100,12 @@ function draw() {
 
     //Map distance to play in tones
     mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
-    if (mappedDistance < 0.8) {
+    if (mappedDistance > 0.8) {
       const synth = new Tone.Synth().toMaster();
       if (Tone.context.state !== "running") {
         Tone.start();
       }
       synth.triggerAttackRelease("G2", "8n");
-    } else {
-      Tone.stop();
     }
     }
   }
