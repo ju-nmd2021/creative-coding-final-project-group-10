@@ -3,22 +3,14 @@ let handpose;
 let predictions = [];
 let detectionIsActivated = false;
 
-//Points fingers
-/* 0-4 Thumb
-   0-8 Index finger
-   0-12 Middle finger
-   0-16 Ring finger
-   0-20 Pinky
-*/
-
-// Points for fingers
-const fingerJoints = {
-  thumb: [0, 1, 2, 3, 4],
-  indexFinger: [0, 5, 6, 7, 8],
-  middleFinger: [0, 9, 10, 11, 12],
-  ringFinger: [0, 13, 14, 15, 16],
-  pinky: [0, 17, 18, 19, 20],
-};
+// // Points for fingers
+// const fingerJoints = {
+//   thumb: [0, 1, 2, 3, 4],
+//   indexFinger: [0, 5, 6, 7, 8],
+//   middleFinger: [0, 9, 10, 11, 12],
+//   ringFinger: [0, 13, 14, 15, 16],
+//   pinky: [0, 17, 18, 19, 20],
+// };
 
 const { getBarsBeats, addTimes, getTransportTimes, mergeMusicDataPart } =
   toneRhythm.toneRhythm(Tone.Time);
@@ -130,7 +122,8 @@ const continueButton = document.getElementById("continueButton");
 
 startBeatButton.addEventListener("click", generateBeat);
 
-function musicSeq() {
+
+function generateBeat() {
   Tone.start();
 
   seq.start(0);
@@ -150,21 +143,17 @@ function musicSeq() {
     }
     timeleft -= 1;
   }, 1000);
+ 
+
+
+   const music = { probability: 0.3, humanize: "32n" };
+   localStorage.music = JSON.stringify(music);
 }
 
-function generateBeat() {
-  // document.getElementById("demo").innerHTML = "Hello World";
-
-  musicSeq();
-
-  const music = { probability: 0.3, humanize: "32n" };
-  localStorage.music = JSON.stringify(music);
-}
 
 continueButton.addEventListener("click", startCamera);
 
 function startCamera() {
-  //document.getElementById("test").innerHTML = "Camera";
 
   //Starting the hand detection
   detectionIsActivated = true;
@@ -205,11 +194,13 @@ function startCamera() {
       }
       timeleft -= 1;
     }, 1000); */
-    musicSeq();
-    const music = JSON.parse(localStorage.music);
-    music.probability = seq.probability;
-    music.humanize = seq.humanize;
+
+     generateBeat();
+     const music = JSON.parse(localStorage.music);
+     music.probability = seq.probability;
+     music.humanize = seq.humanize;
     detectionIsActivated = true;
+
   });
 
   //Go to results page
