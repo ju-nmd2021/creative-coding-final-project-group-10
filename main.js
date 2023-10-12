@@ -3,6 +3,15 @@ let handpose;
 let predictions = [];
 let detectionIsActivated = false;
 
+
+//Points fingers
+/* 0-4 Thumb
+   0-8 Index finger
+   0-12 Middle finger
+   0-16 Ring finger
+   0-20 Pinky
+*/
+
 const { getBarsBeats, addTimes, getTransportTimes, mergeMusicDataPart } =
   toneRhythm.toneRhythm(Tone.Time);
 
