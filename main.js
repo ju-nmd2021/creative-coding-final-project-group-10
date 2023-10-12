@@ -27,16 +27,6 @@ const seq = new Tone.Sequence(
 );
 Tone.Transport.start();
 
-// setTimeout(async () => {
-// 	// the recorded audio is returned as a blob
-// 	const recording = await recorder.stop();
-// 	// download the recording by creating an anchor element and blob url
-// 	const url = URL.createObjectURL(recording);
-// 	const anchor = document.createElement("a");
-// 	anchor.download = "recording.webm";
-// 	anchor.href = url;
-// 	anchor.click();
-// }, 4000);
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
