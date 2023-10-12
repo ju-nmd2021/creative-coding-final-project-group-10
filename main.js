@@ -121,6 +121,9 @@ function startCamera() {
 
   //Get sequence from local storage
   newButtonRecord.addEventListener("click", function () {
+    const music = JSON.parse(localStorage.music);
+    music.probability = seq.probability;
+    music.humanize = seq.humanize;
     Tone.start();
     seq.start(0);
     var timeleft = 10;
@@ -135,7 +138,7 @@ function startCamera() {
       }
       timeleft -= 1;
     }, 1000);
-    const music = JSON.parse(localStorage.music);
+
     detectionIsActivated = true;
   });
 

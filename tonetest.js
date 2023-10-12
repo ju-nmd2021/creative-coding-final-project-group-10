@@ -13,13 +13,16 @@ const {
 //const synth = new Tone.MonoSynth().toMaster();
 const synth = new Tone.FMSynth().toMaster();
 //const pingPongDelay = new Tone.PingPongDelay("4n", 0.5).toDestination();
-const seq = new Tone.Sequence(
+/* const seq = new Tone.Sequence(
   (time, tone) => {
     synth.triggerAttackRelease(tone, 0.8, time);
   },
   ["C2", ["E2", "D2", "E2"], "D1", ["G1", "C1"],'4n', '8n']
 );
-Tone.Transport.start();
+Tone.Transport.start(); */
+
+var arp = new Tone.Pattern(callback, ["C3", "E3", "G3"], "upDown");
+arp.pattern = "downUp";
 
 /* synth.connect(pingPongDelay);
 pingPongDelay.toDestination(); */
@@ -75,9 +78,10 @@ function generateBeat() {
   // document.getElementById("demo").innerHTML = "Hello World";
 
   Tone.start();
-  seq.start(0);
-  seq.probability=0.3;
-  seq.humanize = "32n";
+  
+  arp.start(0);
+  /* seq.probability=0.3;
+  seq.humanize = "32n"; */
 
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
@@ -85,7 +89,7 @@ function generateBeat() {
     if (timeleft <= 0) {
       clearInterval(downloadTimer);
       document.getElementById("countdown").innerHTML = "Finished";
-      seq.stop(0);
+      arp.stop(0);
     } else {
       document.getElementById("countdown").innerHTML =
         timeleft + " seconds remaining";
