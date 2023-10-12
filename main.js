@@ -66,40 +66,43 @@ function draw() {
         ellipse(landmark[0], landmark[1], 10);
         pop();
       }
-    }
 
-    //Calculate the distance between two points of the finger (thumb tip and middle finger tip)
-    let thumbX = landmarks[4][0];
-    let thumbY = landmarks[4][1];
-    let middleFingerX = landmarks[12][0];
-    let middleFingerY = landmarks[12][1];
+      let x1 = predictions[0].boundingBox.topLeft[0];
+      let x2 = predictions[0].boundingBox.bottomRight[0];
+      let w = x2 - x1;
+      //Calculate the distance between two points of the finger (thumb tip and middle finger tip)
+      let thumbX = landmarks[4][0];
+      let thumbY = landmarks[4][1];
+      let middleFingerX = landmarks[12][0];
+      let middleFingerY = landmarks[12][1];
 
-    let currentThumbX = thumbX;
-    let currentMiddleFingerX = middleFingerX;
+      let currentThumbX = thumbX;
+      let currentMiddleFingerX = middleFingerX;
 
-    let currentThumbY = thumbY;
-    let currentMiddleFingerY = middleFingerY;
+      let currentThumbY = thumbY;
+      let currentMiddleFingerY = middleFingerY;
 
-    currentThumbX += (thumbX - currentThumbX) / 4;
-    currentMiddleFingerX += (middleFingerX - currentMiddleFingerX) / 4;
+      currentThumbX += (thumbX - currentThumbX) / 4;
+      currentMiddleFingerX += (middleFingerX - currentMiddleFingerX) / 4;
 
-    currentThumbY += (thumbY - currentThumbY) / 4;
-    currentMiddleFingerY += (middleFingerY - currentMiddleFingerY) / 4;
+      currentThumbY += (thumbY - currentThumbY) / 4;
+      currentMiddleFingerY += (middleFingerY - currentMiddleFingerY) / 4;
 
-    let distance = dist(
-      currentThumbX,
-      currentThumbY,
-      currentMiddleFingerX,
-      currentMiddleFingerY
-    );
+      let distance = dist(
+        currentThumbX,
+        currentThumbY,
+        currentMiddleFingerX,
+        currentMiddleFingerY
+      );
 
-    let minDistance = 0.2;
-    let maxDistance = 1.5;
+      let minDistance = 0.2;
+      let maxDistance = 1.5;
 
-    //Map distance to play in tones
-    mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
-    if (mappedDistance < 0.8) {
-    } else {
+      //Map distance to play in tones
+      mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
+      if (mappedDistance < 0.8) {
+      } else {
+      }
     }
   }
 }
