@@ -31,7 +31,6 @@ const seq = new Tone.Sequence(
 );
 Tone.Transport.start();
 
-
 function setup() {
   createCanvas(innerWidth, innerHeight);
   video = createCapture(VIDEO);
@@ -68,6 +67,40 @@ function draw() {
         pop();
       }
     }
+
+    //Calculate the distance between two points of the finger (thumb tip and middle finger tip)
+    let thumbX = landmarks[4][0];
+    let thumbY = landmarks[4][1];
+    let middleFingerX = landmarks[12][0];
+    let middleFingerY = landmarks[12][1];
+
+    let currentThumbX = thumbX;
+    let currentMiddleFingerX = middleFingerX;
+
+    let currentThumbY = thumbY;
+    let currentMiddleFingerY = middleFingerY;
+
+    currentThumbX += (thumbX - currentThumbX) / 4;
+    currentMiddleFingerX += (middleFingerX - currentMiddleFingerX) / 4;
+
+    currentThumbY += (thumbY - currentThumbY) / 4;
+    currentMiddleFingerY += (middleFingerY - currentMiddleFingerY) / 4;
+
+    let distance = dist(
+      currentThumbX,
+      currentThumbY,
+      currentMiddleFingerX,
+      currentMiddleFingerY
+    );
+
+    let minDistance = 0.2;
+    let maxDistance = 1.5;
+
+    //Map distance to play in tones
+    mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
+    if (mappedDistance < 0.8) {
+    } else {
+    }
   }
 }
 
@@ -77,7 +110,7 @@ const continueButton = document.getElementById("continueButton");
 
 startBeatButton.addEventListener("click", generateBeat);
 
-function musicSeq () {
+function musicSeq() {
   Tone.start();
 
   seq.start(0);
@@ -101,9 +134,8 @@ function musicSeq () {
 
 function generateBeat() {
   // document.getElementById("demo").innerHTML = "Hello World";
- 
-  musicSeq ();
-  
+
+  musicSeq();
 
   const music = { probability: 0.3, humanize: "32n" };
   localStorage.music = JSON.stringify(music);
