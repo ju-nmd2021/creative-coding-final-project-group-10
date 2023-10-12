@@ -104,21 +104,21 @@ function draw() {
     mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
     if (mappedDistance > 0.8) {
 
-      const pentatonicScaleD = ['D2','E2','Gb2','A2','H2'];
-      const scale = new Tone.Pattern((time,note)=>{
-        synth.triggerAttackRelease(note, "4n", time);
-      }, pentatonicScaleD, "upDown");
-
-      const synth = new Tone.Synth().toMaster();
-        scale.start(0);
-        scale.pattern = "upDown";
-      // synth.triggerAttackRelease("pentatonicScaleD", "2n");
+      const synth = new Tone.Synth().toDestination();
+      const pentatonicScale = ['D2','E2','Gb2','A2','B2'];
+      const newSequence = new Tone.Sequence((time,note)=>{
+        const randomNote = pentatonicScale[Math.floor(Math.random()*pentatonicScale.length)];
+        synth.triggerAttackRelease(randomNote, '8n', time);
+      }, Array.from({length: 16}), '4n');
+      Tone.Transport.start();
+      newSequence.start(0);
+   
     }else{
       const synth = new Tone.DuoSynth().toMaster();
       if (Tone.context.state !== "running") {
         Tone.start();
       }
-      synth.triggerAttackRelease("C3", "4n");
+      synth.triggerAttackRelease("C4", "4n");
     }
     }
   }

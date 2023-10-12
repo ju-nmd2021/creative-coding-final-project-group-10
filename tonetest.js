@@ -134,3 +134,14 @@ function startCamera() {
 function modelLoaded() {
   console.log("Model Loaded!");
 }
+
+
+   // const pentatonicScaleD = ['D2','E2','Gb2','A2','H2'];
+      // const scale = new Tone.Pattern((time,note)=>{
+      //   synth.triggerAttackRelease(note, "4n", time);
+      // }, pentatonicScaleD, "upDown");
+
+      // //const synth = new Tone.Synth().toMaster();
+      //   scale.start(0);
+      //   scale.pattern = "upDown";
+      // synth.triggerAttackRelease("pentatonicScaleD", "2n");
