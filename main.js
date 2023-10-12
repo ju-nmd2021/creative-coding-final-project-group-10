@@ -22,18 +22,15 @@ const fingerJoints = {
 const { getBarsBeats, addTimes, getTransportTimes, mergeMusicDataPart } =
   toneRhythm.toneRhythm(Tone.Time);
 
-const synth = new Tone.DuoSynth().toMaster();
-const delay = new Tone.Delay("4n", 0.5).toDestination();
+const synth = new Tone.FMSynth().toMaster();
 const seq = new Tone.Sequence(
   (time, tone) => {
-    synth.triggerAttackRelease(tone, 0.8, time);
+    synth.triggerAttackRelease(tone, 0.6, time);
   },
-  ["C3", ["G2", "D3", "E3"], "D2", ["G2", "C2"]]
+  ["C3", ["A2", "E3", "D3"], "D2", ["G2", "E2"]]
 );
 Tone.Transport.start();
 
-synth.connect(delay);
-delay.toDestination();
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -80,14 +77,12 @@ const continueButton = document.getElementById("continueButton");
 
 startBeatButton.addEventListener("click", generateBeat);
 
-function generateBeat() {
-  // document.getElementById("demo").innerHTML = "Hello World";
-
+function musicSeq () {
   Tone.start();
 
   seq.start(0);
   seq.probability = 0.3;
-  seq.humanize = "32n";
+  seq.humanize = "8n";
 
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
@@ -102,6 +97,13 @@ function generateBeat() {
     }
     timeleft -= 1;
   }, 1000);
+}
+
+function generateBeat() {
+  // document.getElementById("demo").innerHTML = "Hello World";
+ 
+  musicSeq ();
+  
 
   const music = { probability: 0.3, humanize: "32n" };
   localStorage.music = JSON.stringify(music);
@@ -137,10 +139,7 @@ function startCamera() {
 
   //Get sequence from local storage
   newButtonRecord.addEventListener("click", function () {
-    const music = JSON.parse(localStorage.music);
-    music.probability = seq.probability;
-    music.humanize = seq.humanize;
-    Tone.start();
+    /*Tone.start();
     seq.start(0);
     var timeleft = 10;
     var playTimer = setInterval(function () {
@@ -153,8 +152,11 @@ function startCamera() {
           timeleft + " seconds remaining";
       }
       timeleft -= 1;
-    }, 1000);
-
+    }, 1000); */
+    musicSeq();
+    const music = JSON.parse(localStorage.music);
+    music.probability = seq.probability;
+    music.humanize = seq.humanize;
     detectionIsActivated = true;
   });
 
