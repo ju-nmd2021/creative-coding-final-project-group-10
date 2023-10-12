@@ -15,18 +15,21 @@ const { getBarsBeats, addTimes, getTransportTimes, mergeMusicDataPart } =
 // );
 // Tone.Transport.start();
 
+//Synth with recorder
 const recorder = new Tone.Recorder();
 const synth = new Tone.FMSynth().connect(recorder).toMaster();
 recorder.start();
 const scaleForSeq = ["C3", "A2", "E3", "D3", "D2", "G2", "E2"];
 const seq = new Tone.Sequence(
   (time, tone) => {
-    const randomTone = scaleForSeq[Math.floor(Math.random()*scaleForSeq.length)];
-    synth.triggerAttackRelease(randomTone, '2n', time);
-  }, Array.from({length:16}), '2n'
+    const randomTone =
+      scaleForSeq[Math.floor(Math.random() * scaleForSeq.length)];
+    synth.triggerAttackRelease(randomTone, "2n", time);
+  },
+  Array.from({ length: 16 }),
+  "2n"
 );
 Tone.Transport.start();
-
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -40,13 +43,53 @@ function setup() {
   });
 }
 
+//Synths for open and closed Hand
 let sense = false;
-const synth2 = new Tone.Synth().toDestination();
-      const pentatonicScale = ['D2','E2','Gb2','A2','B2'];
-      const newSequence = new Tone.Sequence((time,note)=>{
-        const randomNote = pentatonicScale[Math.floor(Math.random()*pentatonicScale.length)];
-        synth2.triggerAttackRelease(randomNote, '8n', time);
-      }, Array.from({length: 16}), '4n');
+const synthOpenHand = new Tone.Synth().connect(recorder).toDestination();
+const pentatonicScale = ["D2", "E2", "Gb2", "A2", "B2"];
+const newSequence = new Tone.Sequence(
+  (time, note) => {
+    const randomNote =
+      pentatonicScale[Math.floor(Math.random() * pentatonicScale.length)];
+    synthOpenHand.triggerAttackRelease(randomNote, "8n", time);
+  },
+  Array.from({ length: 16 }),
+  "4n"
+);
+
+const synthClosedHand = new Tone.Synth().connect(recorder).toDestination();
+const pentatonicScaleClosed = ["G4", "A4", "B4", "D4", "E4"];
+const newSequenceClosed = new Tone.Sequence(
+  (time, note) => {
+    const randomNote =
+      pentatonicScaleClosed[
+        Math.floor(Math.random() * pentatonicScaleClosed.length)
+      ];
+    synthClosedHand.triggerAttackRelease(randomNote, "8n", time);
+  },
+  Array.from({ length: 16 }),
+  "4n"
+);
+
+//Object for storing
+let objectOfSequence = {
+  beatSequence: ["C3", "A2", "E3", "D3", "D2", "G2", "E2"],
+  openHandSequence: ["D2", "E2", "Gb2", "A2", "B2"],
+  closedHandSequence: ["G4", "A4", "B4", "D4", "E4"],
+};
+
+//Function to store in Local Storage
+function storeInLocalStorage() {
+  localStorage.objectOfSequence = JSON.stringify(objectOfSequence);
+}
+
+//Function to retrieve from Local Storage
+function retrieveFromLocalStorage() {
+  let objectOfSequence = JSON.parse(localStorage.objectOfSequence);
+  objectOfSequence.beatSequence = seq.beatSequence;
+  objectOfSequence.openHandSequence = newSequence.openHandSequence;
+  objectOfSequence.closedHandSequence = newSequenceClosed.closedHandSequence;
+}
 
 function draw() {
   if (detectionIsActivated) {
@@ -104,25 +147,25 @@ function draw() {
       let minDistance = 0.2;
       let maxDistance = 1.5;
 
-    //Map distance to play different tones
-    mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
-    if (mappedDistance > 0.8) {
-      sense = false;
-      
-      Tone.Transport.start();
-      newSequence.start(0);
-   
-    }else{
-      if (Tone.context.state !== "running") {
-        Tone.start();
+      //Map distance to play different tones
+      mappedDistance = map(distance / w, 0, 1, 0.2, 2.0);
+      if (mappedDistance > 0.8) {
+        sense = false;
+
+        Tone.Transport.start();
+        newSequence.start(0);
+      } else {
+        //if (Tone.context.state !== "running") {
+
+        newSequence.stop();
+        if (sense === false) {
+          sense = true;
+          Tone.Transport.start();
+          newSequenceClosed.start(0);
+          // const synth = new Tone.DuoSynth().toMaster();
+          // synth.triggerAttackRelease("C4", "4n");
+        }
       }
-      newSequence.stop();
-      if (sense=== false) {
-        sense=true;    
-      const synth = new Tone.DuoSynth().toMaster();
-      synth.triggerAttackRelease("C4", "4n");
-    }
-    }
     }
   }
 }
@@ -133,18 +176,16 @@ const continueButton = document.getElementById("continueButton");
 
 startBeatButton.addEventListener("click", generateBeat);
 
-
 function generateBeat() {
   Tone.start();
 
   seq.start(0);
   // seq.probability = 0.3;
   // seq.humanize = "8n";
-  
+
   // Coutdown was taken from https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
   var timeleft = 10;
   var playTimer = setInterval(function () {
-    
     if (timeleft <= 0) {
       clearInterval(playTimer);
       document.getElementById("countdown").innerHTML = "Finished";
@@ -166,17 +207,16 @@ function generateBeat() {
     }
     timeleft -= 1;
   }, 1000);
- 
 
-    const music = { probability: 0.3, humanize: "32n" };
-    localStorage.music = JSON.stringify(music);
+  storeInLocalStorage();
+
+  // const music = { probability: 0.3, humanize: "32n" };
+  // localStorage.music = JSON.stringify(music);
 }
-
 
 continueButton.addEventListener("click", startCamera);
 
 function startCamera() {
-
   //Starting the hand detection
   detectionIsActivated = true;
 
@@ -217,13 +257,26 @@ function startCamera() {
       timeleft -= 1;
     }, 1000); */
 
-     generateBeat();
-     const music = JSON.parse(localStorage.music);
-     music.probability = seq.probability;
-     music.humanize = seq.humanize;
-     detectionIsActivated = true;
+    generateBeat(); //not needed if storage is working
+    retrieveFromLocalStorage();
 
+    setTimeout(async () => {
+      // the recorded audio is returned as a blob
+      const recording = await recorder.stop();
+      // download the recording by creating an anchor element and blob url
+      const url = URL.createObjectURL(recording);
+      const anchor = document.createElement("a");
+      anchor.download = "recording.webm";
+      anchor.href = url;
+      anchor.click();
+    }, 4000);
 
+    // const music = JSON.parse(localStorage.music);
+    // music.probability = seq.probability;
+    // music.humanize = seq.humanize;
+
+    detectionIsActivated = true;
+    storeInLocalStorage();
   });
 
   //Go to results page
