@@ -105,7 +105,7 @@ function draw() {
       if (Tone.context.state !== "running") {
         Tone.start();
       }
-      synth.triggerAttackRelease("G2", "8n");
+      synth.triggerAttackRelease("G2", "2n");
     }
     }
   }
