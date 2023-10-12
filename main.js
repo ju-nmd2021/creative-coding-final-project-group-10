@@ -231,7 +231,7 @@ function startCamera() {
 
   //Go to results page
   newButtonFinish.addEventListener("click", function () {
-    window.open("result.html");
+    window.open("end.html");
   });
 }
 
